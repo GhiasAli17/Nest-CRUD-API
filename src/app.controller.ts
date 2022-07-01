@@ -1,6 +1,5 @@
 import { Controller, Get,Body,Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { user } from './user.model';
 
 
 
@@ -9,7 +8,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getAllUsers(){
+  async getAllUsers(){
     return this.appService.getAllUsers();
   }
  
@@ -19,11 +18,15 @@ export class AppController {
   }
 
   @Post("add")
-  addUser(
+  async addUser(
     @Body("name") name:string,
     @Body("email") email:string){
+        
+     const id = await this.appService.addUser(name,email)
 
-    return {name,email};
+     return {id}
+
+     
 
   }
 }
